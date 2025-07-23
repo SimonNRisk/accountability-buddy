@@ -1,8 +1,18 @@
 "use client";
 
-import { Activity } from "@/types/activityTypes";
+type ChecklistItemProps = {
+  id: number;
+  title: string;
+  completed: boolean;
+  onToggle: (id: number) => void;
+};
 
-export const ChecklistItem = ({ id, title, completed, onToggle }: Activity) => {
+export function ChecklistItem({
+  id,
+  title,
+  completed,
+  onToggle,
+}: ChecklistItemProps) {
   return (
     <li>
       <input
@@ -13,4 +23,4 @@ export const ChecklistItem = ({ id, title, completed, onToggle }: Activity) => {
       <span className={completed ? "line-through" : ""}>{title}</span>
     </li>
   );
-};
+}

@@ -2,17 +2,19 @@
 
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { dailyActivities } from "@/lib/constants";
+import { useChecklistItem } from "@/hooks/useChecklistItem";
 
 export default function Home() {
+  const { items, toggleItem } = useChecklistItem(dailyActivities);
   return (
     <ul>
-      {dailyActivities.map((activity) => (
+      {items.map((item) => (
         <ChecklistItem
-          key={activity.id}
-          id={activity.id}
-          title={activity.title}
-          completed={activity.completed}
-          onToggle={(id) => console.log(id)}
+          key={item.id}
+          id={item.id}
+          title={item.title}
+          completed={item.completed}
+          onToggle={toggleItem}
         />
       ))}
     </ul>
