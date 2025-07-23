@@ -1,6 +1,4 @@
-import { Activity } from "@/types/activityTypes";
-
-export const dailyActivities: Activity[] = [
+export const dailyActivities = [
   { id: 1, title: "Exercise", completed: false },
   { id: 2, title: "Talk to loved ones", completed: false },
   { id: 3, title: "Meditate", completed: false },
