@@ -1,15 +1,19 @@
 "use client";
-import { getDocs } from "firebase/firestore";
+import { getDoc } from "firebase/firestore";
 
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { dailyActivities } from "@/lib/constants";
 import { useChecklistItem } from "@/hooks/useChecklistItem";
-import { colRef } from "@/lib/firebase";
+import { docRef } from "@/lib/firebase";
 
 export default function Home() {
-  getDocs(colRef).then((snapshot) => {
-    console.log(snapshot.docs[0].data());
-  });
+  getDoc(docRef)
+    .then((doc) => {
+      console.log(doc.data(), doc.id);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
   const { items, toggleItem } = useChecklistItem(dailyActivities);
   return (
     <ul>
