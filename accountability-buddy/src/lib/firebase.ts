@@ -44,6 +44,6 @@ export const updateItem = (
   updateDoc(docRef, {
     [`checklist.${item}`]: status,
   }).then(() => {
-    console.log("done");
+    console.log(`Updated checklist.${item} to ${status}`);
   });
 };

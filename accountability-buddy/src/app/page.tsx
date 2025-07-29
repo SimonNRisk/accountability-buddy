@@ -1,6 +1,8 @@
 "use client";
 import { getDoc, onSnapshot } from "firebase/firestore";
 
+//TODO: ability to add item, send it to firebase
+
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { dailyActivities } from "@/lib/constants";
 import { useChecklistItem } from "@/hooks/useChecklistItem";
