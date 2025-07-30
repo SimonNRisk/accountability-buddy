@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { Plus, Minus } from "lucide-react";
 
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { docRef } from "@/lib/firebase";
@@ -118,7 +119,7 @@ export default function Home() {
               onClick={() => setInputVisible(false)}
               className="text-xl px-2 cursor-pointer"
             >
-              -
+              <Minus />
             </button>
           </>
         ) : (
@@ -127,7 +128,7 @@ export default function Home() {
             onClick={() => setInputVisible(true)}
             className="text-xl px-2 cursor-pointer"
           >
-            +
+            <Plus />
           </button>
         )}
       </form>
