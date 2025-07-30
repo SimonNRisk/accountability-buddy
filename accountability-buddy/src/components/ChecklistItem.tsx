@@ -4,7 +4,7 @@ type ChecklistItemProps = {
   id: number;
   title: string;
   completed: boolean;
-  onToggle: (id: number) => void;
+  onToggle: (id: number, newCompleted: boolean) => void;
 };
 
 export function ChecklistItem({
@@ -18,7 +18,7 @@ export function ChecklistItem({
       <input
         type="checkbox"
         checked={completed}
-        onChange={() => onToggle(id)}
+        onChange={() => onToggle(id, !completed)}
       ></input>
       <span className={completed ? "line-through" : ""}>{title}</span>
     </li>
