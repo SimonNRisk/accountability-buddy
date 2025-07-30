@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { doc, updateDoc, deleteField } from "firebase/firestore";
+import { docRef } from "@/lib/firebase";
 
 type ChecklistItemProps = {
   id: number;
@@ -15,6 +17,18 @@ export function ChecklistItem({
   onToggle,
 }: ChecklistItemProps) {
   const [showListItemAction, setShowListItemActions] = useState(false);
+
+  const removeItem = async () => {
+    try {
+      await updateDoc(docRef, {
+        [title]: deleteField(),
+      });
+      console.log(`Deleted item: ${title}`);
+    } catch (error) {
+      console.error("Unable to delete activity", error);
+    }
+  };
+
   return (
     <div
       className="flex flex-row gap-x-2"
@@ -25,7 +39,7 @@ export function ChecklistItem({
         className={`transition-opacity duration-400 ${
           showListItemAction ? "opacity-100" : "opacity-0"
         }`}
-        onClick={() => console.log("clicked")}
+        onClick={() => removeItem()}
       >
         x
       </button>
