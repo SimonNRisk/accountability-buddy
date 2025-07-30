@@ -4,6 +4,7 @@ import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { docRef } from "@/lib/firebase";
+import { sortItemsAlphabetically } from "@/util/itemsSorting";
 
 type Activity = {
   id: number;
@@ -80,7 +81,7 @@ export default function Home() {
     }
   };
 
-  const items = fetchedActivities;
+  const items = sortItemsAlphabetically(fetchedActivities);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
