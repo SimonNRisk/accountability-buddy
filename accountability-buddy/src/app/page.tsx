@@ -83,13 +83,19 @@ export default function Home() {
 
   const items = sortItemsAlphabetically(fetchedActivities);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (newItemTitle.trim() === "") return;
+    const trimmedTitle = newItemTitle.trim();
+    if (trimmedTitle === "") return;
 
-    console.log("Submitted", newItemTitle);
-
-    // TODO: Send new item to Firebase here
+    try {
+      await updateDoc(docRef, {
+        [trimmedTitle]: false,
+      });
+      console.log("Added new item:", trimmedTitle);
+    } catch (error) {
+      console.error("Error adding new item:", error);
+    }
 
     setNewItemTitle("");
     setInputVisible(false);
