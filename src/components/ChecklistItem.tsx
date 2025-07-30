@@ -32,28 +32,30 @@ export function ChecklistItem({
   };
 
   return (
-    <div
-      className="flex flex-row gap-x-2"
+    <li
+      className="flex items-center gap-x-2"
       onMouseEnter={() => setShowListItemActions(true)}
       onMouseLeave={() => setShowListItemActions(false)}
     >
       <button
-        className={`transition-opacity duration-400 ${
-          showListItemAction ? "opacity-100" : "opacity-0"
+        className={`transition-opacity duration-300 ${
+          showListItemAction
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         }`}
-        onClick={() => removeItem()}
+        onClick={removeItem}
+        aria-label={`Remove ${title}`}
       >
         <X />
       </button>
 
-      <li>
-        <input
-          type="checkbox"
-          checked={completed}
-          onChange={() => onToggle(id, !completed)}
-        ></input>
-        <span className={completed ? "line-through" : ""}>{title}</span>
-      </li>
-    </div>
+      <input
+        type="checkbox"
+        checked={completed}
+        onChange={() => onToggle(id, !completed)}
+        className="mr-2"
+      />
+      <span className={completed ? "line-through" : ""}>{title}</span>
+    </li>
   );
 }
