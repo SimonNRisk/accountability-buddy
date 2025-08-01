@@ -11,10 +11,10 @@ export const Checklist = ({ items, onToggle }: ChecklistProps) => {
   const sortedItems = sortItemsAlphabetically(items);
 
   return (
-    <ul className="bg-gray-800">
+    <ul className="">
       {items.map((item) => (
         <ChecklistItem
-          key={item.id}
+          key={item.title}
           id={item.id}
           title={item.title}
           completed={item.completed}

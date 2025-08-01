@@ -33,7 +33,7 @@ export function ChecklistItem({
 
   return (
     <li
-      className="flex flex-row justify-between items-center bg-gray-500 py-2 my-2 rounded-lg w-full"
+      className="flex flex-row justify-between items-center bg-black py-2 my-2 rounded-lg w-full"
       onMouseEnter={() => setShowListItemActions(true)}
       onMouseLeave={() => setShowListItemActions(false)}
     >
@@ -42,7 +42,12 @@ export function ChecklistItem({
           type="checkbox"
           checked={completed}
           onChange={() => onToggle(id, !completed)}
-          className="mr-2 h-10 w-10"
+          className={`mr-2 h-10 w-10 appearance-none rounded-md transition-all border-2 checked:bg-green-500 checked:border-green-700 hover:scale-105 cursor-pointer
+        ${
+          completed
+            ? "bg-green-500 border-green-700"
+            : "bg-black border-gray-400"
+        }`}
         />
         <span className={completed ? "line-through" : ""}>{title}</span>
       </div>
