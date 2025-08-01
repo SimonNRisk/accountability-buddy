@@ -33,12 +33,22 @@ export function ChecklistItem({
 
   return (
     <li
-      className="flex items-center gap-x-2"
+      className="flex flex-row justify-between items-center bg-gray-500 py-2 my-2 rounded-lg w-full"
       onMouseEnter={() => setShowListItemActions(true)}
       onMouseLeave={() => setShowListItemActions(false)}
     >
+      <div className="flex items-center gap-2">
+        <input
+          type="checkbox"
+          checked={completed}
+          onChange={() => onToggle(id, !completed)}
+          className="mr-2 h-10 w-10"
+        />
+        <span className={completed ? "line-through" : ""}>{title}</span>
+      </div>
+
       <button
-        className={`transition-opacity duration-300 ${
+        className={`transition-opacity duration-300 justify-end ${
           showListItemAction
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -48,14 +58,6 @@ export function ChecklistItem({
       >
         <X />
       </button>
-
-      <input
-        type="checkbox"
-        checked={completed}
-        onChange={() => onToggle(id, !completed)}
-        className="mr-2"
-      />
-      <span className={completed ? "line-through" : ""}>{title}</span>
     </li>
   );
 }
