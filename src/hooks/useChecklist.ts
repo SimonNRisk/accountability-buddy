@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { docRef } from "@/lib/firebase";
-
-type Activity = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
+import { Activity } from "@/types/activityTypes";
 
 export const useChecklist = () => {
   const [items, setItems] = useState<Activity[]>([]);

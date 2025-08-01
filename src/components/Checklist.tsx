@@ -1,11 +1,6 @@
 import { ChecklistItem } from "@/components/ChecklistItem";
 import { sortItemsAlphabetically } from "@/util/itemsSorting";
-
-type Activity = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
+import { Activity } from "@/types/activityTypes";
 
 type ChecklistProps = {
   items: Activity[];
