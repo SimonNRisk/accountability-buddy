@@ -1,103 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { useState } from "react";
 import { Plus, Minus } from "lucide-react";
-
-import { ChecklistItem } from "@/components/ChecklistItem";
-import { docRef } from "@/lib/firebase";
-import { sortItemsAlphabetically } from "@/util/itemsSorting";
-
-type Activity = {
-  id: number;
-  title: string;
-  completed: boolean;
-};
+import { Checklist } from "@/components/Checklist";
+import { useChecklist } from "@/hooks/useChecklist";
 
 export default function Home() {
   const [inputVisible, setInputVisible] = useState(false);
   const [newItemTitle, setNewItemTitle] = useState("");
-  const [fetchedActivities, setFetchedActivities] = useState<Activity[]>([]);
 
-  useEffect(() => {
-    getDoc(docRef)
-      .then((doc) => {
-        const data = doc.data();
-        console.log(data);
-        if (!data) return;
-
-        const activityArray: Activity[] = Object.entries(data).map(
-          ([title, completed], index) => ({
-            id: index,
-            title,
-            completed: Boolean(completed),
-          })
-        );
-
-        setFetchedActivities(activityArray);
-      })
-      .catch((err) => {
-        console.log("Error during getDoc:", err.message);
-      });
-
-    // Real-time updates
-    const unsubscribe = onSnapshot(docRef, (doc) => {
-      const data = doc.data();
-      console.log(data);
-      if (!data) return;
-
-      const activityArray: Activity[] = Object.entries(data).map(
-        ([title, completed], index) => ({
-          id: index,
-          title,
-          completed: Boolean(completed),
-        })
-      );
-
-      setFetchedActivities(activityArray);
-    });
-
-    return () => unsubscribe(); // Cleanup on unmount
-  }, []);
-
-  const toggleItem = async (id: number, newCompleted: boolean) => {
-    // Update local state immediately (optimistic UI)
-    setFetchedActivities((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, completed: newCompleted } : item
-      )
-    );
-
-    // Find the item to update
-    const toggledItem = fetchedActivities.find((item) => item.id === id);
-    if (!toggledItem) return;
-
-    // Update Firestore
-    try {
-      await updateDoc(docRef, {
-        [toggledItem.title]: newCompleted,
-      });
-      console.log(`Firestore updated: ${toggledItem.title} = ${newCompleted}`);
-    } catch (error) {
-      console.error("Error updating Firestore:", error);
-    }
-  };
-
-  const items = sortItemsAlphabetically(fetchedActivities);
+  const { items, toggleItem, addItem } = useChecklist();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedTitle = newItemTitle.trim();
-    if (trimmedTitle === "") return;
-
-    try {
-      await updateDoc(docRef, {
-        [trimmedTitle]: false,
-      });
-      console.log("Added new item:", trimmedTitle);
-    } catch (error) {
-      console.error("Error adding new item:", error);
-    }
-
+    await addItem(newItemTitle);
     setNewItemTitle("");
     setInputVisible(false);
   };
@@ -133,17 +48,7 @@ export default function Home() {
         )}
       </form>
 
-      <ul>
-        {items.map((item) => (
-          <ChecklistItem
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            completed={item.completed}
-            onToggle={toggleItem}
-          />
-        ))}
-      </ul>
+      <Checklist items={items} onToggle={toggleItem} />
     </>
   );
 }
