@@ -12,6 +12,8 @@ import { getLoginMode } from "@/lib/loginMode";
 export default function Home() {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(false);
+  const [showAddItemModal, setShowAddItemModal] = useState(false);
+  const { items, toggleItem, completedItems } = useChecklist();
 
   useEffect(() => {
     const mode = getLoginMode();
@@ -23,10 +25,6 @@ export default function Home() {
   }, []);
 
   if (isChecking) return null;
-
-  const [showAddItemModal, setShowAddItemModal] = useState(false);
-  const { items, toggleItem, completedItems } = useChecklist();
-  console.log(completedItems);
 
   const onClose = () => setShowAddItemModal(false);
 

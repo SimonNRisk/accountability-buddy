@@ -1,5 +1,4 @@
 import { ChecklistItem } from "@/components/ChecklistItem";
-import { sortItemsAlphabetically } from "@/util/itemsSorting";
 import { Activity } from "@/types/activityTypes";
 
 type ChecklistProps = {
@@ -8,8 +7,6 @@ type ChecklistProps = {
 };
 
 export const Checklist = ({ items, onToggle }: ChecklistProps) => {
-  const sortedItems = sortItemsAlphabetically(items);
-
   return (
     <ul className="">
       {items.map((item) => (
