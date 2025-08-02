@@ -14,24 +14,39 @@ export const AddItemModal = ({ onClose }: addItemModalProps) => {
     e.preventDefault();
     await addItem(newItemTitle);
     setNewItemTitle("");
+    onClose();
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs">
-      <div className="flex flex-col justify-center gap-y-4 bg-black">
+      <div className="flex flex-col justify-center items-center gap-y-8 bg-black p-8 border border-white rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]">
         <h4>Add a new activity to your daily checklist</h4>
-        <form className="flex flex-row" onSubmit={handleSubmit}>
-          <input
-            className="bg-white text-black px-2 py-1 rounded"
-            placeholder="Play badminton"
-            value={newItemTitle}
-            onChange={(e) => setNewItemTitle(e.target.value)}
-            autoFocus
-          />
+        <form className="flex flex-row w-full" onSubmit={handleSubmit}>
+          <div className="flex flex-col w-full">
+            <input
+              className="bg-white text-black px-2 py-1 rounded"
+              placeholder="Play badminton"
+              value={newItemTitle}
+              onChange={(e) => setNewItemTitle(e.target.value)}
+              autoFocus
+            />
+            <div className="flex justify-between mt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
         </form>
-        <button type="button" onClick={onClose}>
-          Cancel
-        </button>
       </div>
     </div>
   );

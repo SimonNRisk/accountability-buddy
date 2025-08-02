@@ -1,15 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { Checklist } from "@/components/Checklist";
 import { useChecklist } from "@/hooks/useChecklist";
 import { AddItemModal } from "@/components/AddItemModal";
 import { Header } from "@/components/Header";
+import { getLoginMode } from "@/lib/loginMode";
 
 export default function Home() {
+  const router = useRouter();
+  const [isChecking, setIsChecking] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const { items, toggleItem, completedItems } = useChecklist();
-  console.log(completedItems);
+
+  useEffect(() => {
+    const mode = getLoginMode();
+    if (!mode) {
+      router.push("/login");
+    } else {
+      setIsChecking(false);
+    }
+  }, []);
+
+  if (isChecking) return null;
 
   const onClose = () => setShowAddItemModal(false);
 
