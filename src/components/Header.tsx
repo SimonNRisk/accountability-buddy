@@ -10,7 +10,9 @@ export const Header = () => {
         <p>
           {completedItems.length}/{items.length} items completed.
         </p>
-        <p>TODO: PROGRESS BAR</p>
+        <p>
+          TODO: PROGRESS BAR {(completedItems.length / items.length).toFixed(2)}
+        </p>
         <p>Time left today: {timeLeft}</p>
       </div>
     </div>
