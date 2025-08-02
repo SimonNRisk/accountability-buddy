@@ -83,5 +83,9 @@ export const useChecklist = () => {
     }
   };
 
-  return { items, toggleItem, addItem };
+  const completedItems = items.filter((item) => {
+    return item.completed;
+  });
+
+  return { items, toggleItem, addItem, completedItems };
 };
