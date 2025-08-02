@@ -1,3 +1,5 @@
+"use client";
+
 import { useChecklist } from "@/hooks/useChecklist";
 import { useTimeLeft } from "@/hooks/useTimeLeft";
 
