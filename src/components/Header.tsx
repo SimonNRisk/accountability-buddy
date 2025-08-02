@@ -11,20 +11,20 @@ export const Header = () => {
   const router = useRouter();
 
   const logout = () => {
-    clearLoginMode;
+    clearLoginMode();
     router.push("/login");
   };
   return (
-    <div className="sticky top-0 shadow-z-50">
-      <div className="flex flex-row justify-between border-b">
-        <p>
+    <div className="sticky top-0 shadow-z-50 shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]">
+      <div className="flex flex-row justify-between border-b-2">
+        <p className="p-2 font-semibold">
           {completedItems.length}/{items.length} items completed.
         </p>
-        <p>
+        <p className="p-2 font-semibold">
           TODO: PROGRESS BAR {(completedItems.length / items.length).toFixed(2)}
         </p>
-        <p>Time left today: {timeLeft}</p>
-        <button className="cursor-pointer" onClick={logout}>
+        <p className="p-2 font-semibold">Time left today: {timeLeft}</p>
+        <button className="cursor-pointer p-2 font-semibold" onClick={logout}>
           Logout
         </button>
       </div>
