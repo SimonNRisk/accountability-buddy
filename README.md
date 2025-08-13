@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Accountability Buddy ✅
+
+My (Simon's) daily habit tracker built with **Next.js (App Router)** and **Firebase Firestore**.  
+I can check off tasks throughout the day, and the list automatically resets to all `false` at **2 a.m. Eastern** via a secure API route triggered by an external cron. This way, friends and family can check out this website and ensure I'm staying productive 😎
+
+---
+
+## Features
+
+- **Real-time habit tracking** using Firestore `onSnapshot`
+- Add, toggle, and remove tasks instantly
+- **Automatic daily reset** at 2 a.m. Eastern via a `/api/reset` endpoint protected by a shared secret
+- Firebase Admin SDK on the server to securely update Firestore without client permissions
+- Client SDK in the browser for real-time UI updates
+- Deployed on **Vercel**, with reset job scheduled via [cron-job.org](https://cron-job.org) (free)
+
+---
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) (App Router)
+- [Firebase](https://firebase.google.com/) — Firestore + Admin SDK
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/) (optional if styling is included)
+- [cron-job.org](https://cron-job.org) for free daily scheduling
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and Install
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd accountability-buddy
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables
+Create a .env.local file in the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Firebase Admin SDK (from service account JSON)
+FIREBASE_PROJECT_ID=accountability-buddy-305c1
+FIREBASE_CLIENT_EMAIL=<firebase-adminsdk-xxxx@accountability-buddy-305c1.iam.gserviceaccount.com>
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n<your-private-key>\n-----END PRIVATE KEY-----\n"
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Security + Firestore document ID
+CRON_SECRET=<random-long-string>
+USER_DOC_ID=<your-firestore-user-doc-id>
+```
 
-## Learn More
+### 3. Development Server
+```bash
+npm run dev
+```
+Open http://localhost:3000 to view the app.
 
-To learn more about Next.js, take a look at the following resources:
+### 4. Daily Reset Job Setup
+We use cron-job.org to call the /api/reset route every day at 2 a.m. Eastern.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Target URL:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```perl
+https://<your-vercel-domain>/api/reset
+```
+Method: POST
 
-## Deploy on Vercel
+Header:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```makefile
+Authorization: Bearer <your CRON_SECRET>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Time Zone: America/Toronto
+Schedule: Every day at 02:00
+
+### How the Reset Works
+/api/reset is a server-only route that:
+
+Verifies the Authorization header matches CRON_SECRET
+
+Uses Firebase Admin SDK to read your Firestore document
+
+Sets all top-level boolean fields to false
+
+This allows the client app to remain read/write only for the current user, while privileged updates (like resets) happen securely on the server.
+
