@@ -5,6 +5,11 @@ I can check off tasks throughout the day, and the list automatically resets to a
 
 ---
 
+## Demo Video (WIP)
+
+<video src="https://github.com/user-attachments/assets/136b0e2b-aa98-4bfc-9787-a8e37957de93" />
+(P.S. dont worry, that Firebase document ID isnt a secret)
+
 ## Features
 
 - **Real-time habit tracking** using Firestore `onSnapshot`
