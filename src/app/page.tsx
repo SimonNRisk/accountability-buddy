@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
-  const { items, toggleItem, completedItems } = useChecklist();
+  const { sortedItems, toggleItem, completedItems } = useChecklist();
 
   useEffect(() => {
     const mode = getLoginMode();
@@ -39,7 +39,7 @@ export default function Home() {
         <Plus />
       </button>
 
-      <Checklist items={items} onToggle={toggleItem} />
+      <Checklist items={sortedItems} onToggle={toggleItem} />
       {showAddItemModal && <AddItemModal onClose={onClose} />}
     </>
   );

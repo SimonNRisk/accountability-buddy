@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { docRef } from "@/lib/firebase";
 import { Activity } from "@/types/activityTypes";
+import { sortItemsAlphabetically } from '@/util/itemsSorting'
 
 export const useChecklist = () => {
   const [items, setItems] = useState<Activity[]>([]);
@@ -87,5 +88,7 @@ export const useChecklist = () => {
     return item.completed;
   });
 
-  return { items, toggleItem, addItem, completedItems };
+  const sortedItems = sortItemsAlphabetically(items)
+
+  return { items, toggleItem, addItem, completedItems, sortedItems };
 };
