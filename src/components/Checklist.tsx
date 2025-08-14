@@ -8,7 +8,7 @@ type ChecklistProps = {
 
 export const Checklist = ({ items, onToggle }: ChecklistProps) => {
   return (
-    <ul className="">
+    <ul className="m-2">
       {items.map((item) => (
         <ChecklistItem
           key={item.title}
