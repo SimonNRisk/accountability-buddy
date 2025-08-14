@@ -24,17 +24,16 @@ export const AddItemModal = ({ onClose }: addItemModalProps) => {
         <form className="flex flex-row w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full">
             <input
-              className="bg-white text-black px-2 py-1 rounded"
+              className="text-white px-2 py-1 rounded border shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] focus:outline-none focus:ring-1 focus:ring-white"
               placeholder="Play badminton"
               value={newItemTitle}
               onChange={(e) => setNewItemTitle(e.target.value)}
-              autoFocus
             />
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-end mt-4">
               <button
                 type="button"
                 onClick={onClose}
-                className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]"
+                className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] mx-4"
               >
                 Cancel
               </button>

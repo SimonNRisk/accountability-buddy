@@ -33,7 +33,7 @@ export function ChecklistItem({
 
   return (
     <li
-      className="flex flex-row justify-between items-center bg-black py-2 my-2 rounded-lg w-full"
+      className="flex flex-row justify-between items-center py-2 my-2 rounded-lg w-full"
       onMouseEnter={() => setShowListItemActions(true)}
       onMouseLeave={() => setShowListItemActions(false)}
     >
