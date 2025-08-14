@@ -34,7 +34,7 @@ export default function Home() {
       <button
         type="button"
         onClick={() => setShowAddItemModal(true)}
-        className="text-xl px-2 cursor-pointer"
+        className="text-xl px-2 cursor-pointer mx-2 mt-4"
       >
         <Plus />
       </button>
