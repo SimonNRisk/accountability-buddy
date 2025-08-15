@@ -7,7 +7,7 @@ import React from "react";
 
 export const runtime = "nodejs"; // needed for SMTP
 
-function torontoDateLabel() {
+function torontoDateLabel(): string {
   return new Date().toLocaleDateString("en-CA", {
     timeZone: "America/Toronto",
   });
@@ -33,11 +33,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Doc not found" }, { status: 404 });
     }
 
-    const data = (snap.data() || {}) as Record<string, unknown>;
-
-    // Build lists from top-level booleans
+    const data = snap.data() ?? {};
     const done: string[] = [];
     const notDone: string[] = [];
+
     for (const [k, v] of Object.entries(data)) {
       if (typeof v === "boolean") {
         (v ? done : notDone).push(k);
@@ -69,13 +68,14 @@ export async function POST(req: Request) {
     return NextResponse.json({
       ok: true,
       sentTo: to,
-      messageId: (info as any)?.messageId,
+      messageId: info?.messageId,
       counts: { done: done.length, notDone: notDone.length },
     });
-  } catch (err: any) {
+  } catch (err) {
     console.error(err);
+    const errorMessage = err instanceof Error ? err.message : "unknown error";
     return NextResponse.json(
-      { ok: false, error: err?.message ?? "unknown" },
+      { ok: false, error: errorMessage },
       { status: 500 }
     );
   }

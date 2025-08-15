@@ -1,7 +1,15 @@
 declare module "mjml" {
-  import { MJMLParseResults } from "mjml-core";
+  import type { MJMLParseResults } from "mjml-core";
+
+  interface MJMLOptions {
+    validationLevel?: "strict" | "soft" | "skip";
+    minify?: boolean;
+    keepComments?: boolean;
+    [key: string]: unknown;
+  }
+
   export default function mjml2html(
     mjml: string,
-    options?: Record<string, any>
+    options?: MJMLOptions
   ): MJMLParseResults;
 }
