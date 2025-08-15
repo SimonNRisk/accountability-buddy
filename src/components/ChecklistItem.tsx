@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { doc, updateDoc, deleteField } from "firebase/firestore";
+import { updateDoc, deleteField } from "firebase/firestore";
 import { X } from "lucide-react";
 
 import { docRef } from "@/lib/firebase";

@@ -13,7 +13,7 @@ export default function Home() {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
-  const { sortedItems, toggleItem, completedItems } = useChecklist();
+  const { sortedItems, toggleItem } = useChecklist();
 
   useEffect(() => {
     const mode = getLoginMode();
@@ -22,7 +22,7 @@ export default function Home() {
     } else {
       setIsChecking(false);
     }
-  }, []);
+  }, [router]);
 
   if (isChecking) return null;
 
