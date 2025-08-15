@@ -7,7 +7,7 @@ I can check off tasks throughout the day, and the list automatically resets to a
 
 ## Demo Video (WIP)
 
-<video src="https://github.com/user-attachments/assets/136b0e2b-aa98-4bfc-9787-a8e37957de93" />
+<video src="https://github.com/user-attachments/assets/87d81264-d57a-4fcc-842a-f350aa8129f9" />
 (P.S. dont worry, that Firebase document ID isnt a secret)
 
 ## Features
