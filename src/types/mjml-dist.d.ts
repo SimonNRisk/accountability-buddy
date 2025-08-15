@@ -1,9 +1,8 @@
 declare module "mjml/dist/mjml.cjs" {
-  // Minimal typing for our use
-  type MJMLParseResults = { html: string; errors?: any[] };
+  type MJMLParseResults = { html: string; errors?: unknown[] };
   const mjml2html: (
     mjml: string,
-    options?: Record<string, any>
+    options?: Record<string, unknown>
   ) => MJMLParseResults;
   export default mjml2html;
 }
