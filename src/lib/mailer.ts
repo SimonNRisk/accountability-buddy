@@ -22,6 +22,12 @@ export async function sendHtmlEmail({
   to: string | string[];
   fromName?: string;
 }) {
+  console.log("GMAIL_USER:", process.env.GMAIL_USER);
+  console.log(
+    "GMAIL_APP_PASSWORD length:",
+    process.env.GMAIL_APP_PASSWORD?.length
+  );
+
   const transporter = getTransporter();
   const info = await transporter.sendMail({
     from: `"${fromName}" <${process.env.GMAIL_USER}>`,
