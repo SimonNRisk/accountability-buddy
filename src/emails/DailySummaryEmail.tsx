@@ -1,13 +1,4 @@
-import {
-  Mjml,
-  MjmlHead,
-  MjmlTitle,
-  MjmlPreview,
-  MjmlBody,
-  MjmlSection,
-  MjmlColumn,
-  MjmlText,
-} from "@faire/mjml-react";
+import { Mjml, MjmlHead, MjmlTitle, MjmlPreview, MjmlBody, MjmlSection, MjmlColumn, MjmlText } from "@faire/mjml-react";
 
 type Props = { dateLabel: string; done: string[]; notDone: string[] };
 
@@ -25,12 +16,10 @@ export default function DailySummaryEmail({ dateLabel, done, notDone }: Props) {
               Daily Accountability — {dateLabel}
             </MjmlText>
             <MjmlText lineHeight="1.6">
-              ✅ <b>Completed</b> ({done.length}):{" "}
-              {done.length ? done.join(", ") : "None"}
+              ✅ <b>Completed</b> ({done.length}): {done.length ? done.join(", ") : "None"}
             </MjmlText>
             <MjmlText lineHeight="1.6">
-              ⭕ <b>Not Completed</b> ({notDone.length}):{" "}
-              {notDone.length ? notDone.join(", ") : "None"}
+              ⭕ <b>Not Completed</b> ({notDone.length}): {notDone.length ? notDone.join(", ") : "None"}
             </MjmlText>
           </MjmlColumn>
         </MjmlSection>

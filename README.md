@@ -42,6 +42,7 @@ npm install
 ```
 
 ### 2. Environment Variables
+
 Create a .env.local file in the project root:
 
 ```bash
@@ -56,12 +57,15 @@ USER_DOC_ID=<your-firestore-user-doc-id>
 ```
 
 ### 3. Development Server
+
 ```bash
 npm run dev
 ```
+
 Open http://localhost:3000 to view the app.
 
 ### 4. Daily Reset Job Setup
+
 We use cron-job.org to call the /api/reset route every day at 2 a.m. Eastern.
 
 Target URL:
@@ -69,6 +73,7 @@ Target URL:
 ```perl
 https://<your-vercel-domain>/api/reset
 ```
+
 Method: POST
 
 Header:
@@ -81,6 +86,7 @@ Time Zone: America/Toronto
 Schedule: Every day at 02:00
 
 ### How the Reset Works
+
 /api/reset is a server-only route that:
 
 Verifies the Authorization header matches CRON_SECRET
@@ -90,4 +96,3 @@ Uses Firebase Admin SDK to read your Firestore document
 Sets all top-level boolean fields to false
 
 This allows the client app to remain read/write only for the current user, while privileged updates (like resets) happen securely on the server.
-

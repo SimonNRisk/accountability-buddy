@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { docRef } from "@/lib/firebase";
 import { Activity } from "@/types/activityTypes";
-import { sortItemsAlphabetically } from '@/util/itemsSorting'
+import { sortItemsAlphabetically } from "@/util/itemsSorting";
 
 export const useChecklist = () => {
   const [items, setItems] = useState<Activity[]>([]);
@@ -14,13 +14,11 @@ export const useChecklist = () => {
         console.log(data);
         if (!data) return;
 
-        const activityArray: Activity[] = Object.entries(data).map(
-          ([title, completed], index) => ({
-            id: index,
-            title,
-            completed: Boolean(completed),
-          })
-        );
+        const activityArray: Activity[] = Object.entries(data).map(([title, completed], index) => ({
+          id: index,
+          title,
+          completed: Boolean(completed),
+        }));
 
         setItems(activityArray);
       })
@@ -34,13 +32,11 @@ export const useChecklist = () => {
       console.log(data);
       if (!data) return;
 
-      const activityArray: Activity[] = Object.entries(data).map(
-        ([title, completed], index) => ({
-          id: index,
-          title,
-          completed: Boolean(completed),
-        })
-      );
+      const activityArray: Activity[] = Object.entries(data).map(([title, completed], index) => ({
+        id: index,
+        title,
+        completed: Boolean(completed),
+      }));
 
       setItems(activityArray);
     });
@@ -50,11 +46,7 @@ export const useChecklist = () => {
 
   const toggleItem = async (id: number, newCompleted: boolean) => {
     // Update local state immediately (optimistic UI)
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, completed: newCompleted } : item
-      )
-    );
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, completed: newCompleted } : item)));
 
     // Find the item to update
     const toggledItem = items.find((item) => item.id === id);
@@ -88,7 +80,7 @@ export const useChecklist = () => {
     return item.completed;
   });
 
-  const sortedItems = sortItemsAlphabetically(items)
+  const sortedItems = sortItemsAlphabetically(items);
 
   return { items, toggleItem, addItem, completedItems, sortedItems };
 };

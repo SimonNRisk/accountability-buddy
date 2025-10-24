@@ -31,11 +31,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <button
-        type="button"
-        onClick={() => setShowAddItemModal(true)}
-        className="text-xl px-2 cursor-pointer mx-2 mt-4"
-      >
+      <button type="button" onClick={() => setShowAddItemModal(true)} className="text-xl px-2 cursor-pointer mx-2 mt-4">
         <Plus />
       </button>
 

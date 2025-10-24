@@ -9,14 +9,15 @@ function requireEnv(name: string): string {
   return v;
 }
 
-const app = getApps().length > 0
+const app =
+  getApps().length > 0
     ? getApp()
     : initializeApp({
         credential: cert({
           projectId: requireEnv("FIREBASE_PROJECT_ID"),
           clientEmail: requireEnv("FIREBASE_CLIENT_EMAIL"),
           privateKey: requireEnv("FIREBASE_PRIVATE_KEY").replace(/\\n/g, "\n"),
-        })
-    })
+        }),
+      });
 
 export const dbAdmin = getFirestore(app);

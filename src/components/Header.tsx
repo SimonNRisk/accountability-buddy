@@ -39,10 +39,7 @@ export const Header = () => {
             </div>
           </div>
         )}
-        <button
-          className="cursor-pointer p-2 font-semibold border-2 border-gray-600 rounded-lg"
-          onClick={logout}
-        >
+        <button className="cursor-pointer p-2 font-semibold border-2 border-gray-600 rounded-lg" onClick={logout}>
           Logout
         </button>
       </div>

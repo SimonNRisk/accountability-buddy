@@ -18,10 +18,7 @@ export async function POST(req: Request) {
   const auth = req.headers.get("authorization") ?? "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : "";
   if (token !== process.env.CRON_SECRET) {
-    return NextResponse.json(
-      { error: "Unauthorized request" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized request" }, { status: 401 });
   }
 
   try {
@@ -74,9 +71,6 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error(err);
     const errorMessage = err instanceof Error ? err.message : "unknown error";
-    return NextResponse.json(
-      { ok: false, error: errorMessage },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, error: errorMessage }, { status: 500 });
   }
 }

@@ -8,8 +8,5 @@ declare module "mjml" {
     [key: string]: unknown;
   }
 
-  export default function mjml2html(
-    mjml: string,
-    options?: MJMLOptions
-  ): MJMLParseResults;
+  export default function mjml2html(mjml: string, options?: MJMLOptions): MJMLParseResults;
 }

@@ -12,12 +12,7 @@ type ChecklistItemProps = {
   onToggle: (id: number, newCompleted: boolean) => void;
 };
 
-export function ChecklistItem({
-  id,
-  title,
-  completed,
-  onToggle,
-}: ChecklistItemProps) {
+export function ChecklistItem({ id, title, completed, onToggle }: ChecklistItemProps) {
   const [showListItemAction, setShowListItemActions] = useState(false);
 
   const removeItem = async () => {
@@ -49,9 +44,7 @@ export function ChecklistItem({
 
       <button
         className={`transition-opacity duration-300 justify-end ${
-          showListItemAction
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+          showListItemAction ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={removeItem}
         aria-label={`Remove ${title}`}
