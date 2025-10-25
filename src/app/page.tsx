@@ -14,12 +14,14 @@ export default function Home() {
   const [isChecking, setIsChecking] = useState(false);
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const { sortedItems, toggleItem } = useChecklist();
+  const [loginMode, setLoginMode] = useState<"viewer" | "editor" | null>(null);
 
   useEffect(() => {
     const mode = getLoginMode();
     if (!mode) {
       router.push("/login");
     } else {
+      setLoginMode(mode);
       setIsChecking(false);
     }
   }, [router]);
@@ -27,15 +29,22 @@ export default function Home() {
   if (isChecking) return null;
 
   const onClose = () => setShowAddItemModal(false);
+  const isEditor = loginMode === "editor";
 
   return (
     <>
       <Header />
-      <button type="button" onClick={() => setShowAddItemModal(true)} className="text-xl px-2 cursor-pointer mx-2 mt-4">
-        <Plus />
-      </button>
+      {isEditor && (
+        <button
+          type="button"
+          onClick={() => setShowAddItemModal(true)}
+          className="text-xl px-2 cursor-pointer mx-2 mt-4"
+        >
+          <Plus />
+        </button>
+      )}
 
-      <Checklist items={sortedItems} onToggle={toggleItem} />
+      <Checklist items={sortedItems} onToggle={toggleItem} isEditor={isEditor} />
       {showAddItemModal && <AddItemModal onClose={onClose} />}
     </>
   );

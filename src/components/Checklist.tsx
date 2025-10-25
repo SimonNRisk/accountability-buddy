@@ -4,9 +4,10 @@ import { Activity } from "@/types/activityTypes";
 type ChecklistProps = {
   items: Activity[];
   onToggle: (id: number, newCompleted: boolean) => void;
+  isEditor: boolean;
 };
 
-export const Checklist = ({ items, onToggle }: ChecklistProps) => {
+export const Checklist = ({ items, onToggle, isEditor }: ChecklistProps) => {
   return (
     <ul className="m-2">
       {items.map((item) => (
@@ -16,6 +17,7 @@ export const Checklist = ({ items, onToggle }: ChecklistProps) => {
           title={item.title}
           completed={item.completed}
           onToggle={onToggle}
+          isEditor={isEditor}
         />
       ))}
     </ul>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDoc, onSnapshot, updateDoc } from "firebase/firestore";
+import { getDoc, onSnapshot } from "firebase/firestore";
 import { docRef } from "@/lib/firebase";
 import { Activity } from "@/types/activityTypes";
 import { sortItemsAlphabetically } from "@/util/itemsSorting";
@@ -52,14 +52,29 @@ export const useChecklist = () => {
     const toggledItem = items.find((item) => item.id === id);
     if (!toggledItem) return;
 
-    // Update Firestore
+    // Use API route instead of direct Firestore
     try {
-      await updateDoc(docRef, {
-        [toggledItem.title]: newCompleted,
+      const response = await fetch("/api/toggle-item", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: localStorage.getItem("auth_password"), // We'll need to store this
+          item: toggledItem.title,
+          status: newCompleted,
+        }),
       });
-      console.log(`Firestore updated: ${toggledItem.title} = ${newCompleted}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to update item");
+      }
+
+      console.log(`Item updated via API: ${toggledItem.title} = ${newCompleted}`);
     } catch (error) {
-      console.error("Error updating Firestore:", error);
+      console.error("Error updating item:", error);
+      // Revert optimistic update on error
+      setItems((prev) => prev.map((item) => (item.id === id ? { ...item, completed: !newCompleted } : item)));
     }
   };
   const addItem = async (title: string) => {
@@ -67,10 +82,22 @@ export const useChecklist = () => {
     if (trimmedTitle === "") return;
 
     try {
-      await updateDoc(docRef, {
-        [trimmedTitle]: false,
+      const response = await fetch("/api/add-item", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: localStorage.getItem("auth_password"),
+          item: trimmedTitle,
+        }),
       });
-      console.log("Added new item:", trimmedTitle);
+
+      if (!response.ok) {
+        throw new Error("Failed to add item");
+      }
+
+      console.log("Added new item via API:", trimmedTitle);
     } catch (error) {
       console.error("Error adding new item:", error);
     }

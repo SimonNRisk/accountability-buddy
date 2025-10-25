@@ -1,26 +1,38 @@
 "use client";
 import { useState } from "react";
-import { updateDoc, deleteField } from "firebase/firestore";
 import { X } from "lucide-react";
-
-import { docRef } from "@/lib/firebase";
 
 type ChecklistItemProps = {
   id: number;
   title: string;
   completed: boolean;
   onToggle: (id: number, newCompleted: boolean) => void;
+  isEditor: boolean;
 };
 
-export function ChecklistItem({ id, title, completed, onToggle }: ChecklistItemProps) {
+export function ChecklistItem({ id, title, completed, onToggle, isEditor }: ChecklistItemProps) {
   const [showListItemAction, setShowListItemActions] = useState(false);
 
   const removeItem = async () => {
+    if (!isEditor) return;
+
     try {
-      await updateDoc(docRef, {
-        [title]: deleteField(),
+      const response = await fetch("/api/delete-item", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: localStorage.getItem("auth_password"),
+          item: title,
+        }),
       });
-      console.log(`Deleted item: ${title}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to delete item");
+      }
+
+      console.log(`Deleted item via API: ${title}`);
     } catch (error) {
       console.error("Unable to delete activity", error);
     }
@@ -36,21 +48,26 @@ export function ChecklistItem({ id, title, completed, onToggle }: ChecklistItemP
         <input
           type="checkbox"
           checked={completed}
-          onChange={() => onToggle(id, !completed)}
-          className="mr-2 h-10 w-10 appearance-none rounded-md transition-all border-2 bg-black border-gray-400 checked:bg-green-500 checked:border-green-700 hover:scale-105 cursor-pointer"
+          onChange={() => isEditor && onToggle(id, !completed)}
+          disabled={!isEditor}
+          className={`mr-2 h-10 w-10 appearance-none rounded-md transition-all border-2 bg-black border-gray-400 checked:bg-green-500 checked:border-green-700 hover:scale-105 ${
+            isEditor ? "cursor-pointer" : "cursor-not-allowed opacity-50"
+          }`}
         />
         <span className={completed ? "line-through" : ""}>{title}</span>
       </div>
 
-      <button
-        className={`transition-opacity duration-300 justify-end ${
-          showListItemAction ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={removeItem}
-        aria-label={`Remove ${title}`}
-      >
-        <X />
-      </button>
+      {isEditor && (
+        <button
+          className={`transition-opacity duration-300 justify-end ${
+            showListItemAction ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          }`}
+          onClick={removeItem}
+          aria-label={`Remove ${title}`}
+        >
+          <X />
+        </button>
+      )}
     </li>
   );
 }

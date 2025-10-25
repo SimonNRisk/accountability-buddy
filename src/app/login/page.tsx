@@ -8,6 +8,7 @@ export default function LoginPage() {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [password, setPassword] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
+  const [error, setError] = useState("");
 
   // Honeypot password
   const FAKE_PASSWORD = "admin123";
@@ -24,17 +25,41 @@ export default function LoginPage() {
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsVerifying(true);
+    setError("");
 
-    // Simulate a brief loading delay for dramatic effect
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      // Check for honeypot first
+      if (password === FAKE_PASSWORD) {
+        router.push("/honeypot");
+        return;
+      }
 
-    if (password === FAKE_PASSWORD) {
-      // Redirect to the funny honeypot page
-      router.push("/honeypot");
-    } else {
-      // Real authentication - just set editor mode for now
-      setLoginMode("editor");
-      router.push("/");
+      // Real authentication
+      const response = await fetch("/api/verify-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Correct password - store it and give editor access
+        localStorage.setItem("auth_password", password);
+        setLoginMode("editor");
+        router.push("/");
+      } else {
+        // Wrong password - give read-only access
+        console.log("naughty naughty");
+        setLoginMode("viewer");
+        router.push("/");
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -76,6 +101,7 @@ export default function LoginPage() {
               disabled={isVerifying}
               autoFocus
             />
+            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
             <div className="flex gap-2">
               <button
                 type="button"
