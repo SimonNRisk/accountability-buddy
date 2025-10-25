@@ -14,14 +14,14 @@ export default function HoneypotPage() {
         <h1 className="text-3xl font-bold text-red-400 mb-6">🚨 Breach Detected! 🚨</h1>
 
         <p className="text-lg mb-6">
-          Good job trying to get into my website! But... this isn't the real password. How silly did you think I was?
-          Storing the password in the frontend is a bad idea.
+          Good job trying to get into my website! But... this isn&apos;t the real password. How silly did you think I
+          was? Storing the password in the frontend is a bad idea.
         </p>
 
         <p className="text-sm text-gray-400 mb-8">
-          If you have gotten this far, you are probably a very curious person. I don't know why you are here, but I'm
-          glad you are. Email me at <a href="mailto:risk.simon@queensu.ca">risk.simon@queensu.ca</a> if you want to
-          chat.
+          If you have gotten this far, you are probably a very curious person. I don&apos;t know why you are here, but
+          I&apos;m glad you are. Email me at <a href="mailto:risk.simon@queensu.ca">risk.simon@queensu.ca</a> if you
+          want to chat.
         </p>
 
         <button

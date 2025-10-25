@@ -56,7 +56,7 @@ export default function LoginPage() {
         setLoginMode("viewer");
         router.push("/");
       }
-    } catch (err) {
+    } catch {
       setError("Network error. Please try again.");
     } finally {
       setIsVerifying(false);
@@ -81,13 +81,13 @@ export default function LoginPage() {
               onClick={() => handleSelect("editor")}
               className="cursor-pointer px-4 py-2 bg-gray-100 text-black rounded shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] hover:scale-105 transition-scale duration-300"
             >
-              I'm Simon
+              I&apos;m Simon
             </button>
             <button
               onClick={() => handleSelect("viewer")}
               className="cursor-pointer px-4 py-2 bg-gray-100 text-black rounded shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] hover:scale-105 transition-scale duration-300"
             >
-              I'm just viewing
+              I&apos;m just viewing
             </button>
           </>
         ) : (
