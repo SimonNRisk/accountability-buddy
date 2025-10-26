@@ -40,7 +40,7 @@ export function ChecklistItem({ id, title, completed, onToggle, isEditor }: Chec
 
   return (
     <li
-      className="flex flex-row justify-between items-center py-2 my-2 rounded-lg w-full"
+      className="flex flex-row justify-between items-center py-4 px-4 bg-transparent border border-white border-opacity-20 hover:border-opacity-50 hover:shadow-[0_0_20px_4px_rgba(255,255,255,0.1)] transition-all duration-300 rounded-lg"
       onMouseEnter={() => setShowListItemActions(true)}
       onMouseLeave={() => setShowListItemActions(false)}
     >
@@ -54,7 +54,7 @@ export function ChecklistItem({ id, title, completed, onToggle, isEditor }: Chec
             isEditor ? "cursor-pointer" : "cursor-not-allowed opacity-50"
           }`}
         />
-        <span className={completed ? "line-through" : ""}>{title}</span>
+        <span className={`text-white ${completed ? "line-through text-gray-400" : ""}`}>{title}</span>
       </div>
 
       {isEditor && (
