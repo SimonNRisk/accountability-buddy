@@ -51,6 +51,14 @@ export default function Home() {
         <Checklist items={sortedItems} onToggle={toggleItem} isEditor={isEditor} />
       </div>
       {showAddItemModal && <AddItemModal onClose={onClose} />}
+      <div className="flex justify-center">
+        <span>
+          Made by{" "}
+          <a href="https://simonsportfolio.vercel.app/" target="_blank" rel="noopener noreferrer" className="underline">
+            Simon Risk
+          </a>
+        </span>
+      </div>
     </div>
   );
 }
