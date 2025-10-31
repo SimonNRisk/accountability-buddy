@@ -30,11 +30,7 @@ export const AddItemModal = ({ onClose }: addItemModalProps) => {
               onChange={(e) => setNewItemTitle(e.target.value)}
             />
             <div className="flex justify-end mt-4">
-              <button
-                type="button"
-                onClick={onClose}
-                className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] mx-4"
-              >
+              <button type="button" onClick={onClose} className="cursor-pointer p-2 border rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)] mx-4">
                 Cancel
               </button>
               <button
