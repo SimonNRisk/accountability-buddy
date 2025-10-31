@@ -2,12 +2,16 @@ name: Prettier Checks
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
 
 jobs:
   prettier-check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
 
     steps:
       - name: Checkout code
