@@ -30,31 +30,36 @@ jobs:
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v44
-        with:
-          files: |
-            **/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,json,yaml,yml,md}
-          files_ignore: |
-            **/node_modules/**
-            **/.next/**
-            **/public/**
-
-      - name: Check Prettier formatting
-        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
-          echo "Changed files:"
-          echo "${{ steps.changed-files.outputs.all_changed_files }}"
+          # Get the base branch (usually main)
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
 
-          # Check if any of the changed files are not properly formatted
-          if ! npx prettier --check ${{ steps.changed-files.outputs.all_changed_files }}; then
-            echo "Some files are not properly formatted with Prettier"
-            echo "To fix formatting issues for specific files, run:"
-            echo "npm run format"
-            exit 1 # This will fail the job
+          # Get all changed files that match Prettier patterns
+          CHANGED_FILES=$(git diff --name-only --diff-filter=ACMR "$BASE_SHA" "$HEAD_SHA" | grep -E '\.(js|mjs|cjs|jsx|ts|mts|cts|tsx|json|yaml|yml|md)$' | grep -v '^node_modules/' | grep -v '/\.next/' | grep -v '^\.next/' | grep -v '^public/' || true)
+
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "has_files=false" >> $GITHUB_OUTPUT
+            echo "No files matching Prettier patterns were changed"
           else
-            echo "All changed files are properly formatted with Prettier"
+            # Convert newlines to spaces for prettier command
+            FILES_STR=$(echo "$CHANGED_FILES" | tr '\n' ' ')
+            echo "files=$FILES_STR" >> $GITHUB_OUTPUT
+            echo "has_files=true" >> $GITHUB_OUTPUT
+            echo "Changed files:"
+            echo "$CHANGED_FILES"
           fi
 
-      - name: No files to check
-        if: steps.changed-files.outputs.any_changed == 'false'
-        run: echo "No files matching Prettier patterns were changed in this PR"
+      - name: Check Prettier formatting
+        if: steps.changed_files.outputs.has_files == 'true'
+        run: |
+          CHANGED_FILES="${{ steps.changed_files.outputs.files }}"
+          echo "Checking formatting for: $CHANGED_FILES"
+
+          if ! npx prettier --check $CHANGED_FILES; then
+            echo "::error::Some files are not properly formatted with Prettier"
+            echo "To fix formatting issues, run: npm run format"
+            exit 1
+          else
+            echo "All changed files are properly formatted with Prettier ✓"
+          fi
