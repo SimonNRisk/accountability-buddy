@@ -3,7 +3,7 @@ name: Prettier Checks
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   prettier-check:
