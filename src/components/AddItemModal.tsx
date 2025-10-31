@@ -18,7 +18,7 @@ export const AddItemModal = ({ onClose }: addItemModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs">
+    <div className="fixed inset-0 z-51 flex items-center justify-center backdrop-blur-xs">
       <div className="flex flex-col justify-center items-center gap-y-8 bg-black p-8 border border-white rounded-lg shadow-[0_0_20px_4px_rgba(255,255,255,0.4)]">
         <h4>Add a new activity to your daily checklist</h4>
         <form className="flex flex-row w-full" onSubmit={handleSubmit}>
